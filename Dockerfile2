@@ -1,0 +1,15 @@
+FROM python:2.7-wheezy
+
+# Install locust
+RUN pip install pyzmq locustio faker
+#RUN pip install locustio 
+#RUN pip install locust
+
+ADD locustfile_new.py /config/locustfile_new.py
+ADD runLocust_new.sh /usr/local/bin/runLocust_new.sh
+
+ENV LOCUST_FILE /config/locustfile_new.py
+
+EXPOSE 8089
+
+ENTRYPOINT ["/usr/local/bin/runLocust_new.sh"]
