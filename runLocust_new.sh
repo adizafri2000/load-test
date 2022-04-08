@@ -72,7 +72,7 @@ EOF
 
 
 
-while getopts ":d:h:c:r:" o; do
+while getopts ":d:h:c:t:" o; do
   case "${o}" in
     d)
         INITIAL_DELAY=${OPTARG}
