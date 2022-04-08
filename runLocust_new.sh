@@ -9,7 +9,7 @@ SCRIPT_NAME=`basename "$0"`
 INITIAL_DELAY=1
 TARGET_HOST="$HOST"
 CLIENTS=2
-REQUESTS=10
+TIME=10
 
 
 do_check() {
@@ -45,8 +45,8 @@ do_exec() {
       exit 1
   fi
 
-  echo "Will run $LOCUST_FILE against $TARGET_HOST. Spawning $CLIENTS clients and $REQUESTS total requests."
-  locust --host=http://$TARGET_HOST -f $LOCUST_FILE --users=$CLIENTS --spawn-rate=5 --headless --only-summary -t=30
+  echo "Will run $LOCUST_FILE against $TARGET_HOST. Spawning $CLIENTS clients in $TIME seconds."
+  locust --host=http://$TARGET_HOST -f $LOCUST_FILE --users=$CLIENTS --spawn-rate=5 --headless --only-summary -t=$TIME
   #locust --host=http://$TARGET_HOST -f $LOCUST_FILE --clients=$CLIENTS --hatch-rate=5 --num-request=$REQUESTS --no-web --only-summary
   #locust --host=http://$TARGET_HOST -f $LOCUST_FILE --hatch-rate=5 --no-web --only-summary
   echo "done"
@@ -61,7 +61,7 @@ Options:
   -d  Delay before starting
   -h  Target host url, e.g. http://localhost/
   -c  Number of clients (default 2)
-  -r  Number of requests (default 10)
+  -t  Time limit of test (in seconds, default 10s)
 
 Description:
   Runs a Locust load simulation against specified host.
@@ -86,9 +86,9 @@ while getopts ":d:h:c:r:" o; do
         CLIENTS=${OPTARG:-2}
         #echo $CLIENTS
         ;;
-    r)
-        REQUESTS=${OPTARG:-10}
-        #echo $REQUESTS
+    t)
+        TIME=${OPTARG:-10}
+        #echo $TIME
         ;;
     *)
         do_usage
